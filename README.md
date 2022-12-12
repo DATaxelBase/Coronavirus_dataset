@@ -12,6 +12,22 @@ Now we are about to finish 2022, what about the new stats ? Everybody live now w
 ## Content 
 2019 Novel Coronavirus (2019-nCoV) is a virus (more specifically, a coronavirus) identified as the cause of an outbreak of respiratory illness first detected in Wuhan, China. Early on, many of the patients in the outbreak in Wuhan, China reportedly had some link to a large seafood and animal market, suggesting animal-to-person spread. However, a growing number of patients reportedly have not had exposure to animal markets, indicating person-to-person spread is occurring. At this time, it’s unclear how easily or sustainably this virus is spreading between people - CDC. 
 2022 Number of mutations of Coronavirus under a certain number of variant. But fortunately with vaccination applied there is a real decreasing of amount of positive cases. However the disease still present. The data will tell us the current situation on global view. 
+| **`Columns`**        | **`Description`**  |  
+| ------------- |-------------:|
+| Id   | ID of country |
+| country       |Country name     |
+| total_cases | Total number of cases   |
+| total_death   | Total number of death |
+| total_recovered      | Total number recovered  |
+| new_recovered | Number of new recovered      |
+| active_cases   | Covid active cases |
+| serious_critical     | Covid serious and critical cases |
+| total_cases_per_million      | Total number of cases per million on population  |
+| deaths_per_million | Total number of deaths per million on population   |
+| total_tests   | Total number of tests in country |
+| tests_per_million      |Total number of tests per million on population   |
+| population | Number of population  |
+| continent   | Continent of country |
 
 ## Summary of Findings
 
