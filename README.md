@@ -30,8 +30,6 @@ Now we are about to finish 2022, what about the new stats ? Everybody live now w
 | continent   | Continent of country |
 
 ## Summary of Findings
-
-
-## Key Insights for Presentation
+Check Covid_19_part_II.slides.html
 
 # Coronavirus_dataset
