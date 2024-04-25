@@ -28,3 +28,12 @@ jobs:
         run: |
           python -m pip install -r .github/workflows/requirements.txt 
           python woldometres_scraping.py
+      - name : Git automatic push 
+        run:
+         git config --global user.name "DATaxelBase"
+         git config --global user.email "axel.damatha@gmail.com"
+         git add * git commit -m "dataset update"
+         git push
+
+git add &lt;pathspec&gt; git commit -m "commit message"
+git push
