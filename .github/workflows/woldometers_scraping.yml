@@ -19,6 +19,7 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4 # Use the latest version compatible
+        
 
       - name: Set up Python
         uses: actions/setup-python@v4 # Use the latest version compatible
@@ -28,8 +29,22 @@ jobs:
         run: |
           python -m pip install -r .github/workflows/requirements.txt 
           python woldometres_scraping.py
-      - name : Git automatic push 
-        run:
-         git add -A 
-         git commit -m "dataset update"
-         git push
+
+      - name: Commit files
+        id: commit
+        run: |
+          git config --local user.email "axel.damatha@gmail.com"
+          git config --local user.name "DATaxelBase"
+          git add --all
+          if [-z "$(git status --porcelain)"]; then
+             echo "::set-output name=push::false"
+          else
+             git commit -m "Add changes" -a
+             echo "::set-output name=push::true"
+          fi
+        shell: bash
+      - name: Push changes
+        if: steps.commit.outputs.push == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
