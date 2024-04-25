@@ -1,6 +1,10 @@
 #! /usr/bin/env python3
+
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+%matplotlib inline
+import seaborn as sb
 import requests
 import re
 from bs4 import BeautifulSoup as bf
@@ -88,8 +92,8 @@ def worldometers_to_string(bloc_countries):
         #Affect the extraction of serious_critical cases
         if len(total_recovered_str) == 0:
             try:
-                total_recovered_str = re.findall(r'''(<td style="font-weight: bold; text-align:right">[0-9, ]+</td>)''',parts[i])
-                total_recovered_from_str = re.findall('[0-9,]+(?#</d>$)',total_recovered_str[1])[0]
+                total_recovered_str = re.findall(r'''(<td style="font-weight: bold; text-align:right">[0-9,N/A ]+</td>)''',parts[i])
+                total_recovered_from_str = re.findall('[0-9,N/A]+(?#</d>$)',total_recovered_str[1])[0]
             except:
                 total_recovered_from_str=0
         else:
@@ -98,72 +102,94 @@ def worldometers_to_string(bloc_countries):
 
         #New_recovered in tab 
         new_recovered_str = re.findall(r'''(background-color:#c8e6c9; color:#000">[0-9,+]+</td>)''',parts[i])
-        try:
+        if len(new_recovered_str) == 0:
+            try:
+                new_recovered_str = re.findall(r'''(<td style="font-weight: bold; text-align:right;">[0-9,N/A]+</td>)''',parts[i])
+                new_recovered_from_str = re.findall('[0-9,N/A]+(?#</d>$)',new_recovered_str[0])[0]
+            except:
+                new_recovered_from_str =0
+        else:
             new_recovered_from_str = re.findall('[0-9,]+(?#</d>$)',new_recovered_str[0])[-1]
-        except:
-            new_recovered_from_str =0
         #new_recovered_from_str
 
         #Active_cases in tab 
-        active_cases_str = re.findall(r'''(<td style="text-align:right;font-weight:bold;">[0-9,]+</td>)''',parts[i])
+        active_cases_str = re.findall(r'''(<td style="text-align:right;font-weight:bold;">[0-9,N/A]+</td>)''',parts[i])
         try:
-            active_cases_from_str = re.findall('[0-9,]+(?#</d>$)',active_cases_str[0])[-1]
+            active_cases_from_str = re.findall('[0-9,N/A)]+(?#</d>$)',active_cases_str[0])[0]
         except:
             active_cases_from_str = 0
         #active_cases_from_str
 
         #Serious_critical, total_cases_per_million, deaths_per_million, tests_per_million in tab (based on this extraction method, depend of total recovered)
-        total_recovered_str = re.findall(r'''(<span style="color:grey; font-style: italic;">[0-9, ]+</span>)''',parts[i])
-        pattern_search = re.findall(r'''(<td style="font-weight: bold; text-align:right">[0-9,]+</td>)''',parts[i])
-        serious_critical_str = re.findall(r'''(<td style="font-weight: bold; text-align:right">[0-9,]+</td>)''',parts[i])
+        serious_critical_str = re.findall(r'''(<td style="font-weight: bold; text-align:right">[0-9,N/A]+</td>)''',parts[i])
+        pattern_search = re.findall(r'''(<td style="font-weight: bold; text-align:right">[0-9,N/A]+</td>)''',parts[i])
         total_cases_per_million_str = pattern_search
         deaths_per_million_str = pattern_search
         total_tests_str = pattern_search
         tests_per_million_str = pattern_search
-        if len(total_recovered_str) == 0:
-            total_recovered_str = re.findall(r'''(<td style="font-weight: bold; text-align:right">[0-9, ]+</td>)''',parts[i])
+        total_recovered_str_1 = re.findall(r'''(<td style="font-weight: bold; text-align:right">[0-9,N/A ]+</td>)''',parts[i])
+        if len(total_recovered_str_1) == 7:
             try:
-                serious_critical_from_str = re.findall('[0-9,]+(?#</d>$)',serious_critical_str[2])[0]
+                serious_critical_str = re.findall(r'''(<td style="font-weight: bold; text-align:right">[0-9,N/A]+</td>)''',parts[i])
+                serious_critical_from_str = re.findall('[0-9,N/A]+(?#</d>$)',serious_critical_str[2])[0]
             except:
                 serious_critical_from_str = 0
             try:
-                total_cases_per_million_from_str = re.findall('[0-9,]+(?#</d>$)',total_cases_per_million_str[3])[0]
+                total_cases_per_million_from_str = re.findall('[0-9,N/A]+(?#</d>$)',total_cases_per_million_str[3])[0]
             except:
                 total_cases_per_million_from_str =0
             try:
-                deaths_per_million_from_str = re.findall('[0-9,]+(?#</d>$)',total_cases_per_million_str[4])[0]
+                deaths_per_million_from_str = re.findall('[0-9,N/A]+(?#</d>$)',total_cases_per_million_str[4])[0]
             except:
                 deaths_per_million_from_str = 0
             try:
-                total_tests_from_str = re.findall('[0-9,]+(?#</d>$)',total_cases_per_million_str[5])[0]
+                total_tests_from_str = re.findall('[0-9,N/A]+(?#</d>$)',total_cases_per_million_str[5])[0]
             except:
                 total_tests_from_str = 0
             try:
-                tests_per_million_from_str = re.findall('[0-9,]+(?#</d>$)',total_cases_per_million_str[6])[0]
+                tests_per_million_from_str = re.findall('[0-9,N/A]+(?#</d>$)',total_cases_per_million_str[6])[0]
             except:
                 tests_per_million_from_str = 0
+        elif len(total_recovered_str_1) == 6:
+            try:
+                serious_critical_str = re.findall(r'''(<td style="font-weight: bold; text-align:right">[0-9,N/A]+</td>)''',parts[i])
+                serious_critical_from_str = re.findall('[0-9,N/A]+(?#</d>$)',serious_critical_str[1])[0]
+            except:
+                serious_critical_from_str = None
+            try:
+                total_cases_per_million_from_str = re.findall('[0-9,N/A]+(?#</d>$)',total_cases_per_million_str[2])[0]
+            except:
+                total_cases_per_million_from_str =0
+            try:
+                deaths_per_million_from_str = re.findall('[0-9,N/A]+(?#</d>$)',total_cases_per_million_str[3])[0]
+            except:
+                deaths_per_million_from_str = 0
+            try:
+                total_tests_from_str = re.findall('[0-9,N/A]+(?#</d>$)',total_cases_per_million_str[4])[0]
+            except:
+                total_tests_from_str = 0
+            try:
+                tests_per_million_from_str = re.findall('[0-9,N/A]+(?#</d>$)',total_cases_per_million_str[5])[0]
+            except:
+                tests_per_million_from_str = 0                
         else:
+            serious_critical_from_str = None
             try:
-                serious_critical_from_str = re.findall('[0-9,]+(?#</d>$)',serious_critical_str[1])[0]
-            except:
-                serious_critical_from_str = 0
-            try:
-                total_cases_per_million_from_str = re.findall('[0-9,]+(?#</d>$)',total_cases_per_million_str[2])[0]
+                total_cases_per_million_from_str = re.findall('[0-9,N/A]+(?#</d>$)',total_cases_per_million_str[1])[0]
             except:
                 total_cases_per_million_from_str =0
             try:
-                deaths_per_million_from_str = re.findall('[0-9,]+(?#</d>$)',total_cases_per_million_str[3])[0]
+                deaths_per_million_from_str = re.findall('[0-9,N/A]+(?#</d>$)',total_cases_per_million_str[2])[0]
             except:
                 deaths_per_million_from_str = 0
             try:
-                total_tests_from_str = re.findall('[0-9,]+(?#</d>$)',total_cases_per_million_str[4])[0]
+                total_tests_from_str = re.findall('[0-9,N/A]+(?#</d>$)',total_cases_per_million_str[3])[0]
             except:
                 total_tests_from_str = 0
             try:
-                tests_per_million_from_str = re.findall('[0-9,]+(?#</d>$)',total_cases_per_million_str[5])[0]
+                tests_per_million_from_str = re.findall('[0-9,N/A]+(?#</d>$)',total_cases_per_million_str[4])[0]
             except:
                 tests_per_million_from_str = 0
-    
             #Population in tab
         population_str = re.findall(r'''(text-align:right"><a href="/world-population/[a-zA-Z"/-]+>[0-9,]+</a>)''',parts[i])
         try :
@@ -205,5 +231,6 @@ def worldometers_to_string(bloc_countries):
 df = worldometers_to_string(bloc_countries)
 tdy = datetime.today().strftime('%Y-%m-%d')
 df['datetime'] = tdy
+df.loc[(df[u'total_recovered'] == df[u'serious_critical']) & (df[u'serious_critical'] !="N/A"),u'serious_critical']= ''
 
-df.to_csv('./Coronavirus-'+tdy+'.csv',index =False)
+df.to_csv('Coronavirus_'+tdy+'.csv',index =False)
