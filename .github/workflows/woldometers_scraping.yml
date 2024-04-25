@@ -32,5 +32,6 @@ jobs:
         run:
          git config --global user.name "DATaxelBase"
          git config --global user.email "axel.damatha@gmail.com"
-         git add * git commit -m "dataset update"
+         git add * 
+         git commit -m "dataset update"
          git push
