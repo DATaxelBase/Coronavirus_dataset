@@ -2,8 +2,6 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-%matplotlib inline
-import seaborn as sb
 import requests
 import re
 from bs4 import BeautifulSoup as bf
@@ -209,4 +207,4 @@ df = worldometers_to_string(bloc_countries)
 tdy = datetime.today().strftime('%Y-%m-%d')
 df['datetime'] = tdy
 
-df.to_csv('Coronavirus_'+tdy+'.csv',index =False)
+df.to_csv('Coronavirus-'+tdy+'.csv',index =False)
