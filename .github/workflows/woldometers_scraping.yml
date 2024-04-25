@@ -30,6 +30,6 @@ jobs:
           python woldometres_scraping.py
       - name : Git automatic push 
         run:
-         git add * 
+         git add -A 
          git commit -m "dataset update"
          git push
