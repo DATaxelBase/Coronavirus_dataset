@@ -22,9 +22,5 @@ jobs:
       - name: Upgrade pip
         run: |
           python -m pip install --upgrade pip
-      - name: Install requirements
-        run: pip install -r requirements.txt
       - name: Run Scraper
-        run: python scraper.py
-      - name: Set env vars
         run: woldometres_scraping.py
