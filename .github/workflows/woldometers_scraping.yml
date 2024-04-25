@@ -23,4 +23,4 @@ jobs:
         run: |
           python -m pip install --upgrade pip
       - name: Run Scraper
-        run: woldometres_scraping.py
+        run: python woldometres_scraping.py
