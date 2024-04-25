@@ -206,4 +206,4 @@ df = worldometers_to_string(bloc_countries)
 tdy = datetime.today().strftime('%Y-%m-%d')
 df['datetime'] = tdy
 
-df.to_html('./Coronavirus-'+tdy+'.html',index =False)
+df.to_csv('./Coronavirus-'+tdy+'.csv',index =False)
