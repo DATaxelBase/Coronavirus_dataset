@@ -34,6 +34,3 @@ jobs:
          git config --global user.email "axel.damatha@gmail.com"
          git add * git commit -m "dataset update"
          git push
-
-git add &lt;pathspec&gt; git commit -m "commit message"
-git push
