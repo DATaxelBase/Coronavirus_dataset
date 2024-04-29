@@ -47,7 +47,7 @@ def worldometers_to_string(bloc_countries):
         #Country in tab
         country_str = re.findall(r'''(<a class="mt_a" href="country/[a-zA-Z"/-]+>[a-zA-Z .]+</a>)''',parts[i])
         try:
-            country_from_str = re.findall('[a-zA-Z .]+(?#</a>$)',country_str[0])[-2]
+            country_from_str = re.findall('[a-zA-Z .-]+(?#</a>$)',country_str[0])[-2]
         except:
             country_from_str =None
         #country_from_str
